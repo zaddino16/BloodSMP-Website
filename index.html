@@ -6,7 +6,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BloodSMP Panel</title>
 <style>
-:root{--bg:#090909;--panel:#151515;--red:#a30d19;--text:#f4f4f4;--muted:#999;--green:#27c46b}
+:root{
+ --bg:#090909;--panel:#151515;--red:#a30d19;
+ --text:#f4f4f4;--muted:#999;--green:#27c46b
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
 header{background:#111;border-bottom:1px solid #391014;padding:18px 25px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
@@ -31,115 +34,152 @@ table{width:100%;border-collapse:collapse;margin-top:15px}
 th,td{text-align:left;padding:13px;border-bottom:1px solid #303030}
 th{color:#aaa;font-size:12px}
 .empty{color:var(--muted);padding:20px 0}
+.server-address{font-size:19px;font-weight:bold;word-break:break-all;margin:12px 0}
+.server-detail{color:var(--muted);font-size:14px;margin:9px 0}
+.copy-btn{background:#401016;color:white;border:1px solid #76202a;border-radius:6px;padding:10px 15px;cursor:pointer;margin-top:10px}
+.copy-btn:hover{background:#60141e}
 footer{color:#777;text-align:center;padding:25px;font-size:12px}
 @media(max-width:650px){
-.layout{display:block}
-nav{width:100%;display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid #252525;padding:8px}
-nav button{white-space:nowrap;width:auto}
-main{padding:18px}
+ .layout{display:block}
+ nav{width:100%;display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid #252525;padding:8px}
+ nav button{white-space:nowrap;width:auto}
+ main{padding:18px}
 }
 </style>
 </head>
 <body>
+
 <header>
-<div class="logo">🩸 BloodSMP Panel</div>
-<div class="status" id="connection">Connecting to API...</div>
+ <div class="logo">🩸 BloodSMP Panel</div>
+ <div class="status" id="connection">Connecting to API...</div>
 </header>
 
 <div class="layout">
 <nav>
-<button class="active" onclick="showPage('overview',this)">🏠 Overview</button>
-<button onclick="showPage('queues',this)">⚔️ Queues</button>
-<button onclick="showPage('events',this)">🎉 Events</button>
-<button onclick="showPage('players',this)">👥 Players</button>
-<button onclick="showPage('moderation',this)">🛡️ Moderation</button>
-<button onclick="showPage('announcements',this)">📢 Announcements</button>
-<button onclick="showPage('settings',this)">⚙️ Settings</button>
+ <button class="active" onclick="showPage('overview',this)">🏠 Overview</button>
+ <button onclick="showPage('queues',this)">⚔️ Queues</button>
+ <button onclick="showPage('events',this)">🎉 Events</button>
+ <button onclick="showPage('players',this)">👥 Players</button>
+ <button onclick="showPage('moderation',this)">🛡️ Moderation</button>
+ <button onclick="showPage('announcements',this)">📢 Announcements</button>
+ <button onclick="showPage('settings',this)">⚙️ Settings</button>
 </nav>
 
 <main>
+
 <section id="overview" class="section active">
-<h1>Dashboard Overview</h1>
-<div class="subtitle">Welcome to your BloodSMP control panel.</div>
-<div class="grid">
-<div class="card"><small>Discord Bot</small><div class="number red" id="botStatus">Checking...</div></div>
-<div class="card"><small>Active Queues</small><div class="number" id="queueCount">0</div></div>
-<div class="card"><small>Total Events</small><div class="number" id="eventCount">0</div></div>
-<div class="card"><small>Players Queued</small><div class="number" id="playerCount">0</div></div>
-</div>
-<div class="card">
-<h3>System Information</h3>
-<p>Discord: <span id="discordInfo">Checking...</span></p>
-<p>Minecraft: <span class="red">Not connected</span></p>
-<p>Website API: <span id="apiInfo">Checking...</span></p>
-<p>Last update: <span id="lastUpdate">Never</span></p>
-</div>
+ <h1>Dashboard Overview</h1>
+ <div class="subtitle">Welcome to your BloodSMP control panel.</div>
+
+ <div class="grid">
+  <div class="card">
+   <small>Discord Bot</small>
+   <div class="number red" id="botStatus">Checking...</div>
+  </div>
+  <div class="card">
+   <small>Active Queues</small>
+   <div class="number" id="queueCount">0</div>
+  </div>
+  <div class="card">
+   <small>Total Events</small>
+   <div class="number" id="eventCount">0</div>
+  </div>
+  <div class="card">
+   <small>Players Queued</small>
+   <div class="number" id="playerCount">0</div>
+  </div>
+ </div>
+
+ <div class="card" style="margin-bottom:20px">
+  <h3>🎮 BloodSMP Minecraft Server</h3>
+  <div class="number red" id="minecraftStatus">Checking...</div>
+  <div class="server-address">BlodSMPevents.aternos.me</div>
+  <div class="server-detail">Port: 25565</div>
+  <div class="server-detail">Edition: Minecraft Java</div>
+  <div class="server-detail" id="minecraftPlayers">Players: Not verified</div>
+  <div class="server-detail" id="minecraftVersion">Version: Not verified</div>
+  <p class="server-detail" id="minecraftInfo">
+   The server is awaiting a live status check.
+  </p>
+  <button class="copy-btn" onclick="copyAddress()">📋 Copy Server Address</button>
+ </div>
+
+ <div class="card">
+  <h3>System Information</h3>
+  <p>Discord: <span id="discordInfo">Checking...</span></p>
+  <p>Minecraft: <span id="minecraftSystemInfo">Checking...</span></p>
+  <p>Website API: <span id="apiInfo">Checking...</span></p>
+  <p>Last update: <span id="lastUpdate">Never</span></p>
+ </div>
 </section>
 
 <section id="queues" class="section">
-<h1>⚔️ Queues</h1>
-<div class="subtitle">Live queue information from your Discord bot.</div>
-<div class="card">
-<table>
-<thead><tr><th>Queue</th><th>Players</th><th>Status</th></tr></thead>
-<tbody id="queueTable"><tr><td colspan="3">Loading...</td></tr></tbody>
-</table>
-</div>
+ <h1>⚔️ Queues</h1>
+ <div class="subtitle">Live queue information from your Discord bot.</div>
+ <div class="card">
+  <table>
+   <thead><tr><th>Queue</th><th>Players</th><th>Status</th></tr></thead>
+   <tbody id="queueTable"><tr><td colspan="3">Loading...</td></tr></tbody>
+  </table>
+ </div>
 </section>
 
 <section id="events" class="section">
-<h1>🎉 Events</h1>
-<div class="subtitle">BloodSMP events.</div>
-<div class="card">
-<table>
-<thead><tr><th>Event</th></tr></thead>
-<tbody id="eventTable"><tr><td>Loading...</td></tr></tbody>
-</table>
-</div>
+ <h1>🎉 Events</h1>
+ <div class="subtitle">BloodSMP events.</div>
+ <div class="card">
+  <table>
+   <thead><tr><th>Event</th></tr></thead>
+   <tbody id="eventTable"><tr><td>Loading...</td></tr></tbody>
+  </table>
+ </div>
 </section>
 
 <section id="players" class="section">
-<h1>👥 Players</h1>
-<div class="subtitle">Queue membership overview.</div>
-<div class="card">
-<p>Total players in queues: <strong id="playersTotal">0</strong></p>
-<p>Detailed Minecraft player information is not connected yet.</p>
-</div>
+ <h1>👥 Players</h1>
+ <div class="subtitle">Queue membership overview.</div>
+ <div class="card">
+  <p>Total players in queues: <strong id="playersTotal">0</strong></p>
+  <p>Detailed Minecraft player information is not verified yet.</p>
+ </div>
 </section>
 
 <section id="moderation" class="section">
-<h1>🛡️ Moderation</h1>
-<div class="subtitle">Discord moderation tools.</div>
-<div class="card">
-<p>Available through Discord bot commands:</p>
-<p><code>/kick</code> — Kick a Discord member</p>
-<p><code>/ban</code> — Ban a Discord member</p>
-<p><code>/warn</code> — Warn a Discord member</p>
-<p><code>/warnings</code> — View warnings</p>
-<p><code>/clear</code> — Clear recent messages</p>
-<p class="red">Website moderation actions are not connected yet.</p>
-</div>
+ <h1>🛡️ Moderation</h1>
+ <div class="subtitle">Discord moderation tools.</div>
+ <div class="card">
+  <p>Available through Discord bot commands:</p>
+  <p><code>/kick</code> — Kick a Discord member</p>
+  <p><code>/ban</code> — Ban a Discord member</p>
+  <p><code>/warn</code> — Warn a Discord member</p>
+  <p><code>/warnings</code> — View warnings</p>
+  <p><code>/clear</code> — Clear recent messages</p>
+  <p class="red">Website moderation actions are not connected yet.</p>
+ </div>
 </section>
 
 <section id="announcements" class="section">
-<h1>📢 Announcements</h1>
-<div class="subtitle">Send announcements using Discord.</div>
-<div class="card">
-<p>Use the Discord command:</p>
-<code>/announce</code>
-<p class="red">Website announcement sending is not connected yet.</p>
-</div>
+ <h1>📢 Announcements</h1>
+ <div class="subtitle">Send announcements using Discord.</div>
+ <div class="card">
+  <p>Use the Discord command:</p>
+  <code>/announce</code>
+  <p class="red">Website announcement sending is not connected yet.</p>
+ </div>
 </section>
 
 <section id="settings" class="section">
-<h1>⚙️ Settings</h1>
-<div class="card">
-<p><strong>Project:</strong> BloodSMP Panel</p>
-<p><strong>API:</strong> http://localhost:3000</p>
-<p><strong>Refresh:</strong> Every 5 seconds</p>
-<p><strong>Creator:</strong> MAFIOSOFI A</p>
-</div>
+ <h1>⚙️ Settings</h1>
+ <div class="card">
+  <p><strong>Project:</strong> BloodSMP Panel</p>
+  <p><strong>API:</strong> http://localhost:3000</p>
+  <p><strong>Refresh:</strong> Every 5 seconds</p>
+  <p><strong>Minecraft:</strong> BlodSMPevents.aternos.me</p>
+  <p><strong>Port:</strong> 25565</p>
+  <p><strong>Creator:</strong> MAFIOSOFI A</p>
+ </div>
 </section>
+
 </main>
 </div>
 
@@ -155,8 +195,15 @@ function showPage(id,button){
  button.classList.add("active");
 }
 
+function copyAddress(){
+ navigator.clipboard.writeText("BlodSMPevents.aternos.me")
+ .then(()=>alert("Minecraft address copied!"))
+ .catch(()=>alert("Copy failed. Address: BlodSMPevents.aternos.me"));
+}
+
 async function updateDashboard(){
  const connection=document.getElementById("connection");
+
  try{
   const response=await fetch(API+"/api/data",{cache:"no-store"});
   if(!response.ok)throw new Error("API error");
@@ -202,6 +249,43 @@ async function updateDashboard(){
  }
 }
 
+async function updateMinecraft(){
+ const status=document.getElementById("minecraftStatus");
+ const info=document.getElementById("minecraftInfo");
+
+ try{
+  const response=await fetch(API+"/api/minecraft",{cache:"no-store"});
+  if(!response.ok)throw new Error("Status checker unavailable");
+
+  const mc=await response.json();
+
+  if(mc.online){
+   status.textContent="🟢 Online";
+   status.className="number green";
+   info.textContent="Live Minecraft status verified.";
+   document.getElementById("minecraftPlayers").textContent=
+    `Players: ${mc.players}/${mc.maxPlayers}`;
+   document.getElementById("minecraftVersion").textContent=
+    `Version: ${mc.version}`;
+   document.getElementById("minecraftSystemInfo").textContent="Online (live verified)";
+  }else{
+   status.textContent="⚪ Not verified";
+   status.className="number";
+   info.textContent="The status checker could not verify the server. Aternos may still show it as online.";
+   document.getElementById("minecraftPlayers").textContent="Players: Not verified";
+   document.getElementById("minecraftVersion").textContent="Version: Not verified";
+   document.getElementById("minecraftSystemInfo").textContent="Status check unavailable";
+  }
+ }catch(error){
+  status.textContent="⚪ Unknown";
+  status.className="number";
+  info.textContent="Could not contact the Minecraft status API.";
+  document.getElementById("minecraftPlayers").textContent="Players: Not verified";
+  document.getElementById("minecraftVersion").textContent="Version: Not verified";
+  document.getElementById("minecraftSystemInfo").textContent="Status check unavailable";
+ }
+}
+
 function escapeHTML(value){
  return String(value??"").replace(/[&<>"']/g,c=>({
   "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
@@ -209,7 +293,10 @@ function escapeHTML(value){
 }
 
 updateDashboard();
+updateMinecraft();
 setInterval(updateDashboard,5000);
+setInterval(updateMinecraft,30000);
 </script>
+
 </body>
 </html>
