@@ -3,190 +3,194 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BloodSMP | Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BloodSMP Panel</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#0b080b;color:#f5eeee;font-family:Arial,sans-serif}
-header{height:72px;background:#170c11;border-bottom:1px solid #49202a;display:flex;align-items:center;justify-content:space-between;padding:0 5%}
-.logo{font-size:22px;font-weight:900;color:#ff414d}
-.logo span{color:white}
-.status{color:#65e89a;font-size:13px}
-.layout{display:flex;min-height:calc(100vh - 72px)}
-nav{width:230px;background:#120b10;padding:25px 15px;border-right:1px solid #321923}
-nav button{display:block;width:100%;padding:14px;margin-bottom:7px;background:transparent;color:#cbbbc0;border:0;text-align:left;border-radius:8px;cursor:pointer;font-size:14px}
-nav button:hover,nav button.active{background:#421722;color:white}
-main{padding:35px;width:100%;max-width:1300px;margin:auto}
-h1{font-size:30px;margin-bottom:8px}
-.subtitle{color:#a99ba0;margin-bottom:30px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
-.card{background:#170e13;border:1px solid #3d202a;border-radius:12px;padding:20px}
-.card small{color:#ad9ba2}
-.card h2{font-size:27px;margin-top:12px}
-.red{color:#ff4755}
-.green{color:#65e89a}
-.section{display:none}
-.section.active{display:block}
-.panel{margin-top:18px;background:#170e13;border:1px solid #3d202a;border-radius:12px;padding:22px}
-.panel h3{margin-bottom:15px}
-button.action{background:#a82032;color:white;border:0;padding:11px 17px;border-radius:7px;cursor:pointer;font-weight:bold}
-button.action:hover{background:#d42d42}
-input,select,textarea{background:#0d090c;color:white;border:1px solid #57303b;border-radius:7px;padding:12px;width:100%;margin:7px 0 14px}
-label{font-size:13px;color:#cbbbc0}
-.notice{color:#b8a8ae;font-size:13px;margin-top:12px}
-.row{display:flex;gap:12px;flex-wrap:wrap}
-.row>*{flex:1}
-.item{padding:13px 0;border-bottom:1px solid #39202a;color:#d8cbd0}
-footer{margin-top:35px;color:#806d74;font-size:12px;text-align:center}
-@media(max-width:750px){.layout{display:block}nav{width:100%;display:grid;grid-template-columns:repeat(2,1fr)}main{padding:20px}.stats{grid-template-columns:repeat(2,1fr)}}
+*{box-sizing:border-box}
+body{margin:0;background:#090909;color:#eee;font-family:Arial,sans-serif}
+header{background:#170707;border-bottom:1px solid #661414;padding:22px}
+header h1{margin:0;color:#ff3030;letter-spacing:3px}
+header p{color:#aaa;margin:7px 0 0}
+.layout{display:flex;min-height:calc(100vh - 85px)}
+nav{width:210px;background:#100d0d;padding:20px 12px}
+nav button{display:block;width:100%;padding:13px;margin-bottom:7px;background:#1d1717;color:white;border:0;border-radius:7px;text-align:left;cursor:pointer}
+nav button:hover,nav button.active{background:#741919}
+main{padding:25px;width:100%;max-width:1200px}
+h2{color:#ff4545}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px}
+.card{background:#171313;border:1px solid #392020;border-radius:10px;padding:20px;margin-bottom:15px}
+.stat{font-size:27px;font-weight:bold;margin-top:10px}
+.muted{color:#aaa}
+.status{color:#ff5555;font-weight:bold}
+input,textarea{display:block;width:100%;padding:12px;margin:10px 0;background:#0c0c0c;color:white;border:1px solid #533030;border-radius:6px}
+textarea{min-height:100px}
+.action{background:#9d2020;color:white;border:0;padding:11px 17px;border-radius:6px;cursor:pointer}
+.action:hover{background:#c42b2b}
+.page{display:none}
+.page.active{display:block}
+.item{padding:12px;background:#211717;border-radius:6px;margin:8px 0}
+footer{color:#777;padding:20px;text-align:center}
+@media(max-width:650px){.layout{display:block}nav{width:100%;display:flex;overflow-x:auto;gap:6px}nav button{min-width:110px;text-align:center}main{padding:15px}}
 </style>
 </head>
 <body>
 <header>
-<div class="logo">🩸 BLOOD<span>SMP</span></div>
-<div class="status">● DASHBOARD PREVIEW</div>
+<h1>🩸 BLOODSMP</h1>
+<p>MAFIOSOFI A — Administration Panel</p>
 </header>
 
 <div class="layout">
 <nav>
-<button class="active" onclick="show('overview',this)">🏠 Overview</button>
-<button onclick="show('queues',this)">⚔️ Queues</button>
-<button onclick="show('events',this)">🏆 Events</button>
-<button onclick="show('players',this)">👥 Players</button>
-<button onclick="show('moderation',this)">🛡️ Moderation</button>
-<button onclick="show('announcements',this)">📢 Announcements</button>
-<button onclick="show('settings',this)">⚙️ Settings</button>
+<button class="active" onclick="showPage('overview',this)">🏠 Overview</button>
+<button onclick="showPage('queues',this)">⚔️ Queues</button>
+<button onclick="showPage('events',this)">🏆 Events</button>
+<button onclick="showPage('players',this)">👥 Players</button>
+<button onclick="showPage('moderation',this)">🛡️ Moderation</button>
+<button onclick="showPage('announcements',this)">📢 Announcements</button>
+<button onclick="showPage('settings',this)">⚙️ Settings</button>
 </nav>
 
 <main>
-<section id="overview" class="section active">
-<h1>Control Center</h1>
-<p class="subtitle">Welcome to MAFIOSOFI A — BloodSMP administration.</p>
-<div class="stats">
-<div class="card"><small>DISCORD BOT</small><h2 class="green">ONLINE</h2></div>
-<div class="card"><small>QUEUES</small><h2>1</h2></div>
-<div class="card"><small>EVENTS</small><h2>0</h2></div>
-<div class="card"><small>MINECRAFT</small><h2 class="red">OFFLINE</h2></div>
+<section id="overview" class="page active">
+<h2>Dashboard Overview</h2>
+<div class="grid">
+<div class="card"><div class="muted">Website API</div><div class="stat status" id="apiStatus">Checking...</div></div>
+<div class="card"><div class="muted">Discord Bot</div><div class="stat">Online*</div></div>
+<div class="card"><div class="muted">Queues</div><div class="stat" id="queueCount">0</div></div>
+<div class="card"><div class="muted">Events</div><div class="stat" id="eventCount">0</div></div>
 </div>
-<div class="panel">
-<h3>🩸 Server overview</h3>
-<div class="item">Discord connection — Online</div>
-<div class="item">Minecraft connection — Not configured</div>
-<div class="item">Website backend — Not connected</div>
-<div class="item">Admin access — Demo interface only</div>
+<div class="card">
+<h3>Connection information</h3>
+<p id="apiMessage" class="muted">Connecting to your local API...</p>
+<p class="muted">Minecraft: Not connected</p>
+<p class="muted">*Discord status is a placeholder, not a live bot check.</p>
 </div>
 </section>
 
-<section id="queues" class="section">
-<h1>⚔️ Queue Management</h1>
-<p class="subtitle">Manage BloodSMP player queues.</p>
-<div class="panel">
-<h3>Create a queue</h3>
-<label>Queue name</label>
-<input id="queueName" placeholder="Example: 1v1">
-<label>Capacity</label>
-<input id="queueCapacity" type="number" value="20" min="1" max="100">
-<button class="action" onclick="createQueue()">Create queue</button>
+<section id="queues" class="page">
+<h2>Queue Management</h2>
+<div class="card">
+<h3>Create a queue (local demo)</h3>
+<input id="queueName" placeholder="Queue name, e.g. 1v1">
+<button class="action" onclick="createQueue()">Create Queue</button>
 <div id="queueList"></div>
-<p class="notice">Demo only. This does not modify Discord queues yet.</p>
 </div>
 </section>
 
-<section id="events" class="section">
-<h1>🏆 Events</h1>
-<p class="subtitle">Create and organize PvP events.</p>
-<div class="panel">
-<h3>New event</h3>
+<section id="events" class="page">
+<h2>Event Management</h2>
+<div class="card">
+<h3>Create an event (local demo)</h3>
 <input id="eventName" placeholder="Event name">
-<textarea id="eventDetails" placeholder="Event details"></textarea>
-<button class="action" onclick="createEvent()">Create event</button>
+<input id="eventTime" placeholder="Event time">
+<button class="action" onclick="createEvent()">Create Event</button>
 <div id="eventList"></div>
 </div>
 </section>
 
-<section id="players" class="section">
-<h1>👥 Players</h1>
-<p class="subtitle">Player management</p>
-<div class="panel">
-<h3>Minecraft connection</h3>
-<p class="item">Not connected yet.</p>
-<p class="notice">Live player lists require Minecraft integration.</p>
+<section id="players" class="page">
+<h2>Player Management</h2>
+<div class="card">
+<p>Minecraft integration is not connected yet.</p>
+<p class="muted">Player lists and Minecraft actions are not available yet.</p>
 </div>
 </section>
 
-<section id="moderation" class="section">
-<h1>🛡️ Moderation</h1>
-<p class="subtitle">Discord moderation tools</p>
-<div class="panel">
-<h3>Available commands</h3>
-<div class="item">/kick — Kick a Discord member</div>
-<div class="item">/ban — Ban a Discord member</div>
+<section id="moderation" class="page">
+<h2>Moderation</h2>
+<div class="card">
+<p>Available Discord bot commands:</p>
+<div class="item">/kick — Remove a member from Discord</div>
+<div class="item">/ban — Ban a member from Discord</div>
 <div class="item">/warn — Warn a member</div>
-<div class="item">/warnings — View warning history</div>
+<div class="item">/warnings — View warnings</div>
 <div class="item">/clear — Clear recent messages</div>
-<p class="notice">Run these commands in your Discord server. Website actions are not connected yet.</p>
+<p class="muted">These commands currently run in Discord, not from this website.</p>
 </div>
 </section>
 
-<section id="announcements" class="section">
-<h1>📢 Announcements</h1>
-<div class="panel">
-<h3>Announcement composer</h3>
-<label>Message</label>
-<textarea id="announcement" placeholder="Write an announcement..."></textarea>
-<button class="action" onclick="previewAnnouncement()">Preview announcement</button>
+<section id="announcements" class="page">
+<h2>Announcements</h2>
+<div class="card">
+<textarea id="announcement" placeholder="Write your announcement..."></textarea>
+<button class="action" onclick="previewAnnouncement()">Preview</button>
 <div id="announcementPreview"></div>
-<p class="notice">Preview only. Use /announce in Discord to publish.</p>
+<p class="muted">Preview only. This does not send a Discord message.</p>
 </div>
 </section>
 
-<section id="settings" class="section">
-<h1>⚙️ Settings</h1>
-<div class="panel">
-<h3>BloodSMP configuration</h3>
-<div class="item">Website: BloodSMP Website</div>
-<div class="item">Theme: Dark red and black</div>
-<div class="item">Bot: MAFIOSOFI A</div>
-<div class="item">Hosting: GitHub Pages</div>
-<div class="item">Minecraft: Paper + Skript (not connected)</div>
+<section id="settings" class="page">
+<h2>Settings</h2>
+<div class="card">
+<p>Website: GitHub Pages</p>
+<p>API address: http://localhost:3000</p>
+<p>Discord bot: Local Windows PC</p>
+<p>Minecraft: Paper + Skript</p>
+<p class="muted">Keep your bot token private. Never put it in this website.</p>
 </div>
 </section>
-
-<footer>MAFIOSOFI A • BLOODSMP • COMMUNITY MANAGEMENT</footer>
 </main>
 </div>
 
+<footer>BloodSMP Panel • Created for BloodSMP</footer>
+
 <script>
-function show(id,button){
-document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-button.classList.add('active');
+function showPage(id,button){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ button.classList.add('active');
 }
+
+async function checkAPI(){
+ const status=document.getElementById('apiStatus');
+ const message=document.getElementById('apiMessage');
+ try{
+  const response=await fetch('http://localhost:3000/api/status');
+  if(!response.ok)throw new Error('API response error');
+  const data=await response.json();
+  status.textContent='Connected';
+  status.style.color='#55dd88';
+  message.textContent='Connected to '+data.name+'. Minecraft: '+data.minecraft+'.';
+ }catch(error){
+  status.textContent='Offline';
+  status.style.color='#ff5555';
+  message.textContent='Cannot reach your local API. Make sure server.js is running on your PC.';
+ }
+}
+checkAPI();
+setInterval(checkAPI,5000);
+
+let queues=[];
+let events=[];
+
 function createQueue(){
-const name=document.getElementById('queueName').value.trim();
-const capacity=document.getElementById('queueCapacity').value;
-if(!name)return alert('Enter a queue name');
-const item=document.createElement('div');
-item.className='item';
-item.textContent=name+' — Capacity: '+capacity;
-document.getElementById('queueList').appendChild(item);
-document.getElementById('queueName').value='';
+ const name=document.getElementById('queueName').value.trim();
+ if(!name)return alert('Enter a queue name.');
+ queues.push(name);
+ document.getElementById('queueList').innerHTML=queues.map(q=>'<div class="item">⚔️ '+escapeHTML(q)+'</div>').join('');
+ document.getElementById('queueCount').textContent=queues.length;
+ document.getElementById('queueName').value='';
 }
+
 function createEvent(){
-const name=document.getElementById('eventName').value.trim();
-const details=document.getElementById('eventDetails').value.trim();
-if(!name)return alert('Enter an event name');
-const item=document.createElement('div');
-item.className='item';
-item.textContent=name+' — '+(details||'No details');
-document.getElementById('eventList').appendChild(item);
-document.getElementById('eventName').value='';
-document.getElementById('eventDetails').value='';
+ const name=document.getElementById('eventName').value.trim();
+ const time=document.getElementById('eventTime').value.trim();
+ if(!name)return alert('Enter an event name.');
+ events.push({name,time});
+ document.getElementById('eventList').innerHTML=events.map(e=>'<div class="item">🏆 '+escapeHTML(e.name)+' — '+escapeHTML(e.time)+'</div>').join('');
+ document.getElementById('eventCount').textContent=events.length;
+ document.getElementById('eventName').value='';
+ document.getElementById('eventTime').value='';
 }
+
 function previewAnnouncement(){
-const message=document.getElementById('announcement').value.trim();
-document.getElementById('announcementPreview').textContent=message||'Write a message first.';
+ const text=document.getElementById('announcement').value.trim();
+ document.getElementById('announcementPreview').textContent=text?'Preview: '+text:'Write something first.';
+}
+
+function escapeHTML(value){
+ return value.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 </script>
 </body>
